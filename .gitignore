@@ -1,0 +1,25 @@
+# Local configuration and credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+.pgpass
+pgpass.conf
+*.dump
+*.backup
+*.log
+__pycache__/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+# School materials and database exports must stay outside this repository
+materials/
+misc/
+model.sql
+models.sql
+README_RUS.md
+ACTIVE_TAG_FILES.txt
+CHANGELOG

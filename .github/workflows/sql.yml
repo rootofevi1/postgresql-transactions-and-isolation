@@ -1,0 +1,12 @@
+name: PostgreSQL checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute queries and fixture assertions in PostgreSQL 17
+        run: python3 scripts/check.py
