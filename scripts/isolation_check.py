@@ -12,8 +12,11 @@ class Session:
     def __init__(self, container, label):
         self.lines = Queue()
         self.process = subprocess.Popen(
-            ['docker','exec','-i',container,'psql','-X','-qAt','-U','postgres',
-             '-d','portfolio','-v','ON_ERROR_STOP=0','-v','VERBOSITY=sqlstate'],
+            # Merge streams BEFORE Docker multiplexes them: an error must precede
+            # the following psql marker, even when Docker drains stderr later.
+            ['docker','exec','-i',container,'sh','-c',
+             'exec psql -X -qAt -U postgres -d portfolio '
+             '-v ON_ERROR_STOP=0 -v VERBOSITY=sqlstate 2>&1'],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
             text=True, encoding='utf-8', bufsize=1)
         self.reader = Thread(target=self._read, daemon=True)
